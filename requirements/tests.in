@@ -1,0 +1,6 @@
+-r demos.in
+jax==0.1.72
+numpy==1.19.0
+scipy==1.4.1
+tensorflow==2.2.0
+torch==1.4.0

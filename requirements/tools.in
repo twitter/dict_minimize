@@ -1,0 +1,5 @@
+detect-secrets==0.12.5
+pip-compile-multi==1.4.0
+pipreqs==0.4.9
+pre-commit==1.15.2
+pytest==5.0.1
