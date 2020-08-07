@@ -33,7 +33,7 @@
     hooks:
     -   id: isort
         language_version: python3
-        args: [-w 100, -m 3, -tc, --project=dict_minimize]
+        args: [-w 120, -m 3, -tc, --project=dict_minimize]
 - repo: https://github.com/jumanjihouse/pre-commit-hooks
   rev: 1.11.0
   hooks:
@@ -68,4 +68,4 @@
   rev: v1.3.1
   hooks:
     - id: docformatter
-      args: [--in-place,--wrap-summaries=100,--wrap-descriptions=100]
+      args: [--in-place,--wrap-summaries=120,--wrap-descriptions=120]

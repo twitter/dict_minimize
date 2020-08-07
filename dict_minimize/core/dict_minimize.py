@@ -84,8 +84,8 @@ def _minimize(
     callback: Optional[Callable] = None,
     options: Optional[dict] = None,
 ) -> OrderedDict:
-    """Minimization of a scalar function with a dictionary of variables as the input. It can
-    interface to functions written outside of `numpy` (e.g., `tensorflow` or `torch`).
+    """Minimization of a scalar function with a dictionary of variables as the input. It can interface to functions
+    written outside of `numpy` (e.g., `tensorflow` or `torch`).
 
     This is a wrapper around `scipy.optimize.minimize`.
 

@@ -1,0 +1,3 @@
+-r base.in
+-r demos.in
+Sphinx==3.1.2
