@@ -9,9 +9,9 @@ This is a wrapper around `scipy.optimize.minimize`.
 from collections import OrderedDict
 from typing import Callable, Optional, Sequence, Tuple
 
-import numpy as np
 from scipy.optimize import minimize as scipy_minimize
 
+import numpy as np
 
 SCIPY_DTYPE = np.float64  # Some scipy optimizers prefer double
 

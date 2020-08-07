@@ -1,10 +1,10 @@
 from collections import OrderedDict
 from typing import Callable, Optional, Sequence
 
-from .dict_minimize import _minimize
-
 import numpy as np
 import tensorflow as tf
+
+from .dict_minimize import _minimize
 
 
 def get_dtype(X):
