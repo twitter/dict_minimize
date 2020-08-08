@@ -4,7 +4,7 @@ from typing import Callable, Optional, Sequence
 import jax.numpy as np
 import jaxlib
 
-from dict_minimize.core.dict_minimize import _minimize
+from dict_minimize.core._scipy import _minimize
 
 # Keep pipreqs and pep8 happy by importing and doing something with jaxlib:
 assert jaxlib.__version__ is not None

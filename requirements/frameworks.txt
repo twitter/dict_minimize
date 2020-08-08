@@ -19,8 +19,8 @@ grpcio==1.31.0            # via tensorboard, tensorflow
 h5py==2.10.0              # via tensorflow
 idna==2.10                # via requests
 importlib-metadata==1.7.0  # via markdown
-jax==0.1.72               # via -r requirements/demos.in
-jaxlib==0.1.51            # via -r requirements/demos.in
+jax==0.1.72               # via -r requirements/frameworks.in
+jaxlib==0.1.51            # via -r requirements/frameworks.in
 keras-preprocessing==1.1.2  # via tensorflow
 markdown==3.2.2           # via tensorboard
 oauthlib==3.1.0           # via requests-oauthlib
@@ -35,9 +35,9 @@ six==1.15.0               # via absl-py, astunparse, google-auth, google-pasta, 
 tensorboard-plugin-wit==1.7.0  # via tensorboard
 tensorboard==2.2.2        # via tensorflow
 tensorflow-estimator==2.2.0  # via tensorflow
-tensorflow==2.2.0         # via -r requirements/demos.in
+tensorflow==2.2.0         # via -r requirements/frameworks.in
 termcolor==1.1.0          # via tensorflow
-torch==1.4.0              # via -r requirements/demos.in
+torch==1.4.0              # via -r requirements/frameworks.in
 urllib3==1.25.10          # via requests
 werkzeug==1.0.1           # via tensorboard
 wheel==0.34.2             # via astunparse, tensorboard, tensorflow

@@ -40,6 +40,6 @@ JAX API
 Internals
 ~~~~~~~~~
 
-.. automodule:: dict_minimize.core.dict_minimize
+.. automodule:: dict_minimize.core._scipy
    :members:
    :exclude-members:

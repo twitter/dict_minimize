@@ -3,7 +3,7 @@ from typing import Callable, Optional, Sequence
 
 import torch
 
-from dict_minimize.core.dict_minimize import _minimize
+from dict_minimize.core._scipy import _minimize
 
 
 def get_dtype(X):

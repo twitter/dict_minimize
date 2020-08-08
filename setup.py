@@ -11,7 +11,7 @@ def read_requirements(name):
 
 
 requirements = read_requirements("base")
-demo_requirements = read_requirements("demos")
+framework_requirements = read_requirements("frameworks")
 test_requirements = read_requirements("tests")
 
 with open("README.rst") as f:
@@ -28,7 +28,7 @@ setup(
     description="Access scipy optimizers from your favorite deep learning framework.",
     python_requires=">=3.6",
     install_requires=requirements,
-    extras_require={"demo": demo_requirements, "test": test_requirements},
+    extras_require={"framework": framework_requirements, "test": test_requirements},
     long_description=long_description,
     long_description_content_type="text/x-rst",
     platforms=["any"],

@@ -1,5 +1,5 @@
 include requirements/base.in
-include requirements/demos.in
+include requirements/frameworks.in
 include requirements/tests.in
 include LICENSE
 include README.rst
