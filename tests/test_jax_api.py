@@ -2,9 +2,10 @@ import numpy as np
 from hypothesis import given
 from hypothesis.extra.numpy import array_shapes, arrays, floating_dtypes
 from hypothesis.strategies import floats, sampled_from
+from jax.dtypes import _jax_types
 
 from dict_minimize.core._scipy import SCIPY_DTYPE, _default_to_np
-from dict_minimize.jax_api import from_np
+from dict_minimize.jax_api import from_np, get_dtype
 
 to_np = _default_to_np
 
@@ -14,6 +15,18 @@ np_float_arrays = arrays(
     elements=floats(allow_nan=False, width=16),
 )
 jax_float_dtypes = sampled_from(["float16", "float32", "float64"])
+
+
+@given(np_float_arrays, sampled_from(_jax_types))
+def test_get_dtype(x_np, dtype):
+    x_jax = from_np(x_np, dtype)
+
+    print(dtype, x_jax.dtype)
+
+    dtype2 = get_dtype(x_jax)
+
+    assert dtype == dtype2
+    assert str(dtype) == str(dtype2)
 
 
 @given(np_float_arrays, jax_float_dtypes)
