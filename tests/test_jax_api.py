@@ -20,6 +20,17 @@ jax_float_dtypes = sampled_from(["float16", "float32", "float64"])
 grad_methods = sampled_from(["CG", "BFGS", "L-BFGS-B", "TNC", "SLSQP", "trust-constr"])
 
 
+def prep3(v):
+    return (3,) + tuple(v)
+
+
+np_float_arrays3 = arrays(
+    dtype=floating_dtypes(),
+    shape=array_shapes(min_dims=0, max_dims=5, min_side=0, max_side=5).map(prep3),
+    elements=floats(allow_nan=False, width=16),
+)
+
+
 @given(np_float_arrays, sampled_from(_jax_types))
 def test_get_dtype(x_np, dtype):
     x_jax = from_np(x_np, dtype)
@@ -46,7 +57,7 @@ def test_from_np(x_np, dtype_str):
     assert np.allclose(x_np, x_np2)
 
 
-def validate_solution(x0_dict, x_sol):
+def validate_solution(x0_dict, x_sol, lb=None, ub=None):
     assert isinstance(x_sol, OrderedDict)
     assert list(x_sol.keys()) == list(x0_dict.keys())
     for kk in x0_dict.keys():
@@ -83,3 +94,41 @@ def test_minimize(x0_dict, args, method, tol):
 
     x_sol = minimize(dummy_f, x0_dict, args=args, method=method, tol=tol, callback=callback, options={"maxiter": 10})
     validate_solution(x0_dict, x_sol)
+
+
+@settings(deadline=None)
+@given(
+    dictionaries(text(), tuples(np_float_arrays3, jax_float_dtypes), min_size=1),
+    lists(integers()),
+    grad_methods,
+    floats(0, 1),
+)
+def test_minimize_bounded(x0_dict_, args, method, tol):
+    total_el = sum(vv.size for vv, _ in x0_dict_.values())
+    assume(total_el > 0)
+
+    args = tuple(args)
+
+    x0_dict = OrderedDict()
+    lb_dict = OrderedDict()
+    ub_dict = OrderedDict()
+    for kk, (vv, dd) in x0_dict_.items():
+        vv = np.sort(vv, axis=0)
+        lb, vv, ub = vv
+        x0_dict[kk] = from_np(vv, dd)
+        lb_dict[kk] = from_np(lb, dd)
+        ub_dict[kk] = from_np(ub, dd)
+
+    def dummy_f(xk, *args_):
+        assert args == args_
+        validate_solution(x0_dict, xk, lb_dict, ub_dict)
+        # Pass back some arbitrary stuff
+        v = sum(vv.sum() for vv in xk.values())
+        dv = OrderedDict([kk, vv + 1] for kk, vv in xk.items())
+        return v, dv
+
+    def callback(xk):
+        validate_solution(x0_dict, xk, lb_dict, ub_dict)
+
+    x_sol = minimize(dummy_f, x0_dict, args=args, method=method, tol=tol, callback=callback, options={"maxiter": 10})
+    validate_solution(x0_dict, x_sol, lb_dict, ub_dict)
