@@ -3,7 +3,7 @@ from collections import OrderedDict
 import numpy as np
 from hypothesis import assume, given, settings
 from hypothesis.extra.numpy import array_shapes, arrays, floating_dtypes
-from hypothesis.strategies import dictionaries, floats, integers, just, lists, sampled_from, text, tuples
+from hypothesis.strategies import dictionaries, floats, integers, lists, sampled_from, text, tuples
 from jax.dtypes import _jax_types
 
 from dict_minimize.core._scipy import SCIPY_DTYPE, _default_to_np
@@ -17,8 +17,7 @@ np_float_arrays = arrays(
     elements=floats(allow_nan=False, width=16),
 )
 jax_float_dtypes = sampled_from(["float16", "float32", "float64"])
-# TODO add more
-grad_methods = just("L-BFGS-B")
+grad_methods = sampled_from(["CG", "BFGS", "L-BFGS-B", "TNC", "SLSQP", "trust-constr"])
 
 
 @given(np_float_arrays, sampled_from(_jax_types))
@@ -82,5 +81,5 @@ def test_minimize(x0_dict, args, method, tol):
     def callback(xk):
         validate_solution(x0_dict, xk)
 
-    x_sol = minimize(dummy_f, x0_dict, args=args, method=method, tol=tol, callback=callback)
+    x_sol = minimize(dummy_f, x0_dict, args=args, method=method, tol=tol, callback=callback, options={"maxiter": 10})
     validate_solution(x0_dict, x_sol)
