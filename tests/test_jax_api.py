@@ -3,7 +3,7 @@ from collections import OrderedDict
 import numpy as np
 from hypothesis import assume, given, settings
 from hypothesis.extra.numpy import array_shapes, arrays, floating_dtypes
-from hypothesis.strategies import dictionaries, floats, integers, lists, sampled_from, text, tuples
+from hypothesis.strategies import booleans, dictionaries, floats, integers, lists, sampled_from, text, tuples
 from jax.dtypes import _jax_types
 
 from dict_minimize.core._scipy import SCIPY_DTYPE, _default_to_np
@@ -102,8 +102,10 @@ def test_minimize(x0_dict, args, method, tol):
     lists(integers()),
     grad_methods,
     floats(0, 1),
+    booleans(),
+    booleans(),
 )
-def test_minimize_bounded(x0_dict_, args, method, tol):
+def test_minimize_bounded(x0_dict_, args, method, tol, ignore_lb, ignore_ub):
     total_el = sum(vv.size for vv, _ in x0_dict_.values())
     assume(total_el > 0)
 
@@ -119,16 +121,24 @@ def test_minimize_bounded(x0_dict_, args, method, tol):
         lb_dict[kk] = from_np(lb, dd)
         ub_dict[kk] = from_np(ub, dd)
 
+    validate_solution(x0_dict, x0_dict, lb_dict, ub_dict)
+
+    if ignore_lb:
+        lb_dict = None
+    if ignore_ub:
+        ub_dict = None
+
     def dummy_f(xk, *args_):
         assert args == args_
-        validate_solution(x0_dict, xk, lb_dict, ub_dict)
+        validate_solution(x0_dict, xk)
         # Pass back some arbitrary stuff
         v = sum(vv.sum() for vv in xk.values())
         dv = OrderedDict([kk, vv + 1] for kk, vv in xk.items())
         return v, dv
 
     def callback(xk):
-        validate_solution(x0_dict, xk, lb_dict, ub_dict)
+        validate_solution(x0_dict, xk)
 
     x_sol = minimize(dummy_f, x0_dict, args=args, method=method, tol=tol, callback=callback, options={"maxiter": 10})
-    validate_solution(x0_dict, x_sol, lb_dict, ub_dict)
+    # TODO determine when we can check bounds
+    validate_solution(x0_dict, x_sol)
