@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# dict-minimize documentation build configuration file.
+# dict_minimize documentation build configuration file.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -53,7 +53,7 @@ source_suffix = {".rst": "restructuredtext", ".txt": "markdown", ".md": "markdow
 master_doc = "index"
 
 # General information about the project.
-project = "dict-minimize"
+project = "dict_minimize"
 copyright = "2020"
 
 # The version info for the project you're documenting, acts as replacement

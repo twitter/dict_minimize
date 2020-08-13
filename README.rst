@@ -13,15 +13,15 @@ The core package itself can be installed with:
 
 .. code-block:: bash
 
-   pip install dict-minimize
+   pip install dict_minimize
 
 To also get the dependencies for all the supported frameworks (torch, JAX, tensorflow) in the README install with
 
 .. code-block:: bash
 
-   pip install dict-minimize[framework]
+   pip install dict_minimize[framework]
 
-See the `GitHub <https://github.com/twitter/dict-minimize>`_, `PyPI <>`_, and `Read the Docs <>`_.
+See the `GitHub <https://github.com/twitter/dict_minimize>`_, `PyPI <>`_, and `Read the Docs <>`_.
 
 Example Usage
 =============
@@ -182,7 +182,7 @@ Then clone the repo in your git directory ``$GIT``:
 .. code-block:: bash
 
    cd $GIT
-   git clone https://github.com/twitter/dict-minimize.git
+   git clone https://github.com/twitter/dict_minimize.git
 
 Inside your virtual environments folder ``$ENVS``, make the environment:
 
@@ -190,13 +190,13 @@ Inside your virtual environments folder ``$ENVS``, make the environment:
 
    cd $ENVS
    virtualenv dict_minimize --python=python3.7
-   source $ENVS/dict-minimize/bin/activate
+   source $ENVS/dict_minimize/bin/activate
 
 Now we can install the pip dependencies. Move back into your git directory and run
 
 .. code-block:: bash
 
-   cd $GIT/dict-minimize
+   cd $GIT/dict_minimize
    pip install -r requirements/base.txt
    pip install -e .  # Install the package itself
 
@@ -209,21 +209,21 @@ First, we need to setup some needed tools:
 
    cd $ENVS
    virtualenv dict_minimize_tools --python=python3.7
-   source $ENVS/dict-minimize_tools/bin/activate
-   pip install -r $GIT/dict-minimize/requirements/tools.txt
+   source $ENVS/dict_minimize_tools/bin/activate
+   pip install -r $GIT/dict_minimize/requirements/tools.txt
 
 To install the pre-commit hooks for contributing run (in the ``dict_minimize_tools`` environment):
 
 .. code-block:: bash
 
-   cd $GIT/dict-minimize
+   cd $GIT/dict_minimize
    pre-commit install
 
 To rebuild the requirements, we can run:
 
 .. code-block:: bash
 
-   cd $GIT/dict-minimize
+   cd $GIT/dict_minimize
 
    # Check if there any discrepancies in the .in files
    pipreqs dict_minimize/core/ --diff requirements/base.in
@@ -243,14 +243,14 @@ First setup the environment for building with ``Sphinx``:
 
    cd $ENVS
    virtualenv dict_minimize_docs --python=python3.7
-   source $ENVS/dict-minimize_docs/bin/activate
-   pip install -r $GIT/dict-minimize/requirements/docs.txt
+   source $ENVS/dict_minimize_docs/bin/activate
+   pip install -r $GIT/dict_minimize/requirements/docs.txt
 
 Then we can do the build:
 
 .. code-block:: bash
 
-   cd $GIT/dict-minimize/docs
+   cd $GIT/dict_minimize/docs
    make all
    open _build/html/index.html
 
@@ -263,11 +263,11 @@ The tests for this package can be run with:
 
 .. code-block:: bash
 
-   cd $GIT/dict-minimize
+   cd $GIT/dict_minimize
    ./local_test.sh
 
 The script creates an environment using the requirements found in ``requirements/test.txt``.
-A code coverage report will also be produced in ``$GIT/dict-minimize/htmlcov/index.html``.
+A code coverage report will also be produced in ``$GIT/dict_minimize/htmlcov/index.html``.
 
 Deployment
 ----------
@@ -276,13 +276,13 @@ The wheel (tar ball) for deployment as a pip installable package can be built us
 
 .. code-block:: bash
 
-   cd $GIT/dict-minimize/
+   cd $GIT/dict_minimize/
    ./build_wheel.sh
 
 Links
 =====
 
-The `source <https://github.com/twitter/dict-minimize>`_ is hosted on GitHub.
+The `source <https://github.com/twitter/dict_minimize>`_ is hosted on GitHub.
 
 The `documentation <>`_ is hosted at Read the Docs.
 

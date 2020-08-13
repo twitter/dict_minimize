@@ -21,7 +21,7 @@ setup(
     name="dict_minimize",
     version=__version__,
     packages=find_packages(),
-    url="https://github.com/twitter/dict-minimize/",
+    url="https://github.com/twitter/dict_minimize/",
     author="Ryan Turner",
     author_email=("rdturnermtl@github.com"),
     license="Apache v2",
