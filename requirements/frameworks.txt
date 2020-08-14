@@ -18,6 +18,7 @@ google-pasta==0.2.0       # via tensorflow
 grpcio==1.31.0            # via tensorboard, tensorflow
 h5py==2.10.0              # via tensorflow
 idna==2.10                # via requests
+importlib-metadata==0.18  # via markdown
 jax==0.1.72               # via -r requirements/frameworks.in
 jaxlib==0.1.51            # via -r requirements/frameworks.in
 keras-preprocessing==1.1.2  # via tensorflow
@@ -41,6 +42,7 @@ urllib3==1.25.10          # via requests
 werkzeug==1.0.1           # via tensorboard
 wheel==0.34.2             # via astunparse, tensorboard, tensorflow
 wrapt==1.12.1             # via tensorflow
+zipp==0.5.2               # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
