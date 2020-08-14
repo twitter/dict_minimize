@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from typing import Callable, Optional, Sequence
 
+import numpy as np
 import torch
 
 from dict_minimize.core._scipy import _minimize
@@ -13,6 +14,11 @@ def get_dtype(X):
 
 def from_np(X, dtype):
     assert X.dtype.kind == "f"
+
+    dtype_ = X.dtype
+    X = np.asarray(X)  # In case a scalar was given
+    assert X.dtype == dtype_
+
     Xt = torch.from_numpy(X).type(dtype)
     # Do this weird way to avoid `UserWarning` from torch.
     Xt = Xt.clone().detach().requires_grad_(True)

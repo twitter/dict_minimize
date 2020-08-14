@@ -1,6 +1,7 @@
 from collections import OrderedDict
 
 import numpy as np
+import torch
 from hypothesis import assume, given, settings
 from hypothesis.extra.numpy import array_shapes, arrays, floating_dtypes
 from hypothesis.strategies import booleans, dictionaries, floats, integers, lists, sampled_from, text, tuples
@@ -9,12 +10,12 @@ from dict_minimize.core._scipy import SCIPY_DTYPE
 from dict_minimize.torch_api import from_np, get_dtype, minimize, to_np
 
 np_float_arrays = arrays(
-    dtype=floating_dtypes(),
+    dtype=floating_dtypes(endianness="="),
     shape=array_shapes(min_dims=0, max_dims=5, min_side=0, max_side=5),
     elements=floats(allow_nan=False, width=16),
 )
-torch_dtypes = sampled_from(["float16", "float32", "float64"])
-torch_float_dtypes = sampled_from(["float16", "float32", "float64"])
+torch_dtypes = sampled_from([torch.float32, torch.float64])
+torch_float_dtypes = sampled_from([torch.float32, torch.float64])
 grad_methods = sampled_from(["CG", "BFGS", "L-BFGS-B", "TNC", "SLSQP", "trust-constr"])
 
 
@@ -23,7 +24,7 @@ def prep3(v):
 
 
 np_float_arrays3 = arrays(
-    dtype=floating_dtypes(),
+    dtype=floating_dtypes(endianness="="),
     shape=array_shapes(min_dims=0, max_dims=5, min_side=0, max_side=5).map(prep3),
     elements=floats(allow_nan=False, width=16),
 )
