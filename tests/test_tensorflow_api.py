@@ -1,24 +1,24 @@
 from collections import OrderedDict
 
 import numpy as np
-import torch
+import tensorflow as tf
 from hypothesis import assume, given, settings
 from hypothesis.extra.numpy import array_shapes, arrays, floating_dtypes
 from hypothesis.strategies import booleans, dictionaries, floats, integers, lists, sampled_from, text, tuples
 
 from dict_minimize.core._scipy import SCIPY_DTYPE
-from dict_minimize.torch_api import from_np, get_dtype, minimize, to_np
+from dict_minimize.tensorflow_api import from_np, get_dtype, minimize, to_np
 
-# Torch does not support numpy conversion across endianness (byte order)
+# TODO drop endianness="="
 np_float_arrays = arrays(
     dtype=floating_dtypes(endianness="="),
     shape=array_shapes(min_dims=0, max_dims=5, min_side=0, max_side=5),
     elements=floats(allow_nan=False, width=16),
 )
-# float16 does not work at it seems on CPU
-torch_dtypes = sampled_from([torch.float32, torch.float64])
+# TODO float16 does not work at it seems on CPU
+tf_dtypes = sampled_from([tf.float32, tf.float64])
 # TODO add more dtypes
-torch_float_dtypes = sampled_from([torch.float32, torch.float64])
+tf_float_dtypes = sampled_from([tf.float32, tf.float64])
 grad_methods = sampled_from(["CG", "BFGS", "L-BFGS-B", "TNC", "SLSQP", "trust-constr"])
 
 
@@ -33,20 +33,20 @@ np_float_arrays3 = arrays(
 )
 
 
-@given(np_float_arrays, torch_dtypes)
+@given(np_float_arrays, tf_dtypes)
 def test_get_dtype(x_np, dtype):
-    x_torch = from_np(x_np, dtype)
+    x_tf = from_np(x_np, dtype)
 
-    dtype2 = get_dtype(x_torch)
+    dtype2 = get_dtype(x_tf)
 
     assert dtype == dtype2
     assert str(dtype) == str(dtype2)
 
 
-@given(np_float_arrays, torch_float_dtypes)
+@given(np_float_arrays, tf_float_dtypes)
 def test_from_np(x_np, dtype_str):
-    x_torch = from_np(x_np, dtype_str)
-    x_np2 = to_np(x_torch)
+    x_tf = from_np(x_np, dtype_str)
+    x_np2 = to_np(x_tf)
 
     assert isinstance(x_np2, np.ndarray)
     x_np2.dtype.kind == "f"
@@ -71,7 +71,7 @@ def validate_solution(x0_dict, x_sol, lb=None, ub=None):
 
 @settings(deadline=None)
 @given(
-    dictionaries(text(), tuples(np_float_arrays, torch_float_dtypes), min_size=1),
+    dictionaries(text(), tuples(np_float_arrays, tf_float_dtypes), min_size=1),
     lists(integers()),
     grad_methods,
     floats(0, 1),
@@ -87,7 +87,10 @@ def test_minimize(x0_dict, args, method, tol):
         assert args == args_
         validate_solution(x0_dict, xk)
         # Pass back some arbitrary stuff
-        v = sum(vv.sum() for vv in xk.values())
+        v = 0.0
+        for vv in xk.values():
+            v = v + np.sum(to_np(vv))
+        v = from_np(v, tf.float64)
         dv = OrderedDict([kk, vv + 1] for kk, vv in xk.items())
         return v, dv
 
@@ -100,7 +103,7 @@ def test_minimize(x0_dict, args, method, tol):
 
 @settings(deadline=None)
 @given(
-    dictionaries(text(), tuples(np_float_arrays3, torch_float_dtypes), min_size=1),
+    dictionaries(text(), tuples(np_float_arrays3, tf_float_dtypes), min_size=1),
     lists(integers()),
     grad_methods,
     floats(0, 1),
@@ -134,7 +137,10 @@ def test_minimize_bounded(x0_dict_, args, method, tol, ignore_lb, ignore_ub):
         assert args == args_
         validate_solution(x0_dict, xk)
         # Pass back some arbitrary stuff
-        v = sum(vv.sum() for vv in xk.values())
+        v = 0.0
+        for vv in xk.values():
+            v = v + np.sum(to_np(vv))
+        v = from_np(v, tf.float64)
         dv = OrderedDict([kk, vv + 1] for kk, vv in xk.items())
         return v, dv
 
