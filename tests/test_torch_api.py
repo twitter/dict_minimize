@@ -4,7 +4,7 @@ import numpy as np
 import torch
 from hypothesis import assume, given, settings
 from hypothesis.extra.numpy import array_shapes, arrays, floating_dtypes
-from hypothesis.strategies import booleans, dictionaries, floats, integers, lists, sampled_from, text, tuples
+from hypothesis.strategies import dictionaries, floats, integers, lists, sampled_from, text, tuples
 
 from dict_minimize.core._scipy import SCIPY_DTYPE, _pack, _unpack
 from dict_minimize.torch_api import from_np, get_dtype, minimize, to_np
@@ -33,6 +33,8 @@ torch_dtypes = sampled_from(
     ]
 )
 grad_methods = sampled_from(["CG", "BFGS", "L-BFGS-B", "TNC", "SLSQP", "trust-constr"])
+# These are the only optimizers that seem to always respect the bounds arguments, no matter what
+always_respects_bounds = ("L-BFGS-B", "TNC", "SLSQP")
 
 
 def prep3(v):
@@ -43,6 +45,7 @@ np_float_arrays3 = arrays(
     dtype=floating_dtypes(endianness="="),
     shape=array_shapes(min_dims=0, max_dims=5, min_side=0, max_side=5).map(prep3),
     elements=floats(allow_nan=False, width=16),
+    unique=True,
 )
 
 
@@ -120,6 +123,8 @@ def validate_solution(x0_dict, x_sol, lb=None, ub=None):
         assert str(x0_dict[kk].dtype) == str(x_sol[kk].dtype)
         assert x0_dict[kk].dtype == x_sol[kk].dtype
         assert x0_dict[kk].shape == x_sol[kk].shape
+        assert (lb is None) or np.all(to_np(lb[kk]) <= to_np(x_sol[kk]))
+        assert (ub is None) or np.all(to_np(x_sol[kk]) <= to_np(ub[kk]))
 
 
 @settings(deadline=None)
@@ -157,14 +162,14 @@ def test_minimize(x0_dict, args, method, tol):
     lists(integers()),
     grad_methods,
     floats(0, 1),
-    booleans(),
-    booleans(),
 )
-def test_minimize_bounded(x0_dict_, args, method, tol, ignore_lb, ignore_ub):
+def test_minimize_bounded(x0_dict_, args, method, tol):
     total_el = sum(vv.size for vv, _ in x0_dict_.values())
     assume(total_el > 0)
 
     args = tuple(args)
+
+    check_bounds = method in always_respects_bounds
 
     x0_dict = OrderedDict()
     lb_dict = OrderedDict()
@@ -178,22 +183,38 @@ def test_minimize_bounded(x0_dict_, args, method, tol, ignore_lb, ignore_ub):
 
     validate_solution(x0_dict, x0_dict, lb_dict, ub_dict)
 
-    if ignore_lb:
-        lb_dict = None
-    if ignore_ub:
-        ub_dict = None
-
     def dummy_f(xk, *args_):
         assert args == args_
-        validate_solution(x0_dict, xk)
+
+        if check_bounds:
+            validate_solution(x0_dict, xk, lb_dict, ub_dict)
+        else:
+            validate_solution(x0_dict, xk)
+
         # Pass back some arbitrary stuff
         v = sum(vv.sum() for vv in xk.values())
         dv = OrderedDict([kk, vv + 1] for kk, vv in xk.items())
         return v, dv
 
     def callback(xk):
-        validate_solution(x0_dict, xk)
+        if check_bounds:
+            validate_solution(x0_dict, xk, lb_dict, ub_dict)
+        else:
+            validate_solution(x0_dict, xk)
 
-    x_sol = minimize(dummy_f, x0_dict, args=args, method=method, tol=tol, callback=callback, options={"maxiter": 10})
-    # TODO determine when we can check bounds
-    validate_solution(x0_dict, x_sol)
+    x_sol = minimize(
+        dummy_f,
+        x0_dict,
+        args=args,
+        lb_dict=lb_dict,
+        ub_dict=ub_dict,
+        method=method,
+        tol=tol,
+        callback=callback,
+        options={"maxiter": 10},
+    )
+
+    if check_bounds:
+        validate_solution(x0_dict, x_sol, lb_dict, ub_dict)
+    else:
+        validate_solution(x0_dict, x_sol)
