@@ -6,10 +6,10 @@ Credits
 Development lead
 ~~~~~~~~~~~~~~~~
 
-Ryan Turner (rdturnermtl)
+Ryan Turner - Twitter (rdturnermtl)
 
 ~~~~~~~~~~~~
 Contributors
 ~~~~~~~~~~~~
 
-* Gerard Casas Saez (casassg)
+* Gerard Casas Saez - Twitter (casassg)
