@@ -15,10 +15,22 @@ np_float_arrays = arrays(
     shape=array_shapes(min_dims=0, max_dims=5, min_side=0, max_side=5),
     elements=floats(allow_nan=False, width=16),
 )
-# float16 does not work at it seems on CPU
-torch_dtypes = sampled_from([torch.float32, torch.float64])
-# TODO add more dtypes
+# torch float16 does not work on CPU, so we omit from tests
 torch_float_dtypes = sampled_from([torch.float32, torch.float64])
+# torch complex dtypes have trouble on some back ends, so we omit from tests
+torch_dtypes = sampled_from(
+    [
+        torch.float32,
+        torch.float64,
+        torch.bfloat16,
+        torch.uint8,
+        torch.int8,
+        torch.int16,
+        torch.int32,
+        torch.int64,
+        torch.bool,
+    ]
+)
 grad_methods = sampled_from(["CG", "BFGS", "L-BFGS-B", "TNC", "SLSQP", "trust-constr"])
 
 
@@ -75,7 +87,7 @@ def test_pack_unpack(x_dict):
 
 @given(np_float_arrays, torch_dtypes)
 def test_get_dtype(x_np, dtype):
-    x_torch = from_np(x_np, dtype)
+    x_torch = torch.from_numpy(x_np).type(dtype)
 
     dtype2 = get_dtype(x_torch)
 
