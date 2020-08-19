@@ -4,10 +4,14 @@ import numpy as np
 from hypothesis import assume, given, settings
 from hypothesis.extra.numpy import array_shapes, arrays, floating_dtypes
 from hypothesis.strategies import booleans, dictionaries, floats, integers, lists, sampled_from, text, tuples
+from jax.config import config
 from jax.dtypes import _jax_types
 
 from dict_minimize.core._scipy import SCIPY_DTYPE, _default_to_np
 from dict_minimize.jax_api import from_np, get_dtype, minimize
+
+# The float64 tests will not work without this:
+config.update("jax_enable_x64", True)
 
 to_np = _default_to_np
 
