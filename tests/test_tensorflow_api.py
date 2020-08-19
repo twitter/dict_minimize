@@ -6,7 +6,7 @@ from hypothesis import assume, given, settings
 from hypothesis.extra.numpy import array_shapes, arrays, floating_dtypes
 from hypothesis.strategies import booleans, dictionaries, floats, integers, lists, sampled_from, text, tuples
 
-from dict_minimize.core._scipy import SCIPY_DTYPE
+from dict_minimize.core._scipy import SCIPY_DTYPE, _pack, _unpack
 from dict_minimize.tensorflow_api import from_np, get_dtype, minimize, to_np
 
 # TODO drop endianness="="
@@ -31,6 +31,46 @@ np_float_arrays3 = arrays(
     shape=array_shapes(min_dims=0, max_dims=5, min_side=0, max_side=5).map(prep3),
     elements=floats(allow_nan=False, width=16),
 )
+
+
+def to_np_validated(x):
+    x_np = to_np(x)
+    # These asserts could be made exceptions for user's sake
+    assert isinstance(x_np, np.ndarray), "Numpy conversion must return ndarray."
+    assert x_np.dtype.kind == "f", "Numpy conversion must return float ndarray."
+    x_np = x_np.astype(SCIPY_DTYPE, copy=False)
+    return x_np
+
+
+@given(dictionaries(text(), tuples(np_float_arrays, tf_float_dtypes), min_size=1))
+def test_pack_unpack(x_dict):
+    x_dict = OrderedDict([(kk, from_np(vv, dd)) for kk, (vv, dd) in x_dict.items()])
+
+    # Get dtypes as well
+    x_dtypes = OrderedDict([(kk, get_dtype(vv)) for kk, vv in x_dict.items()])
+
+    x_vec, shapes = _pack(x_dict, to_np_validated)
+
+    # Check we get same thing when we pass in shapes
+    x_vec_, shapes_ = _pack(x_dict, to_np_validated, shapes)
+    assert np.all(x_vec == x_vec_)
+    assert shapes is shapes_
+
+    # Now test we get same thing back on round-trip to x_dict
+    x_dict_ = _unpack(x_vec, from_np, shapes, x_dtypes)
+    assert isinstance(x_dict_, OrderedDict)
+    assert list(x_dict_.keys()) == list(x_dict.keys())
+    for kk in x_dict.keys():
+        assert type(x_dict[kk]) == type(x_dict_[kk])  # noqa: E721
+        assert str(x_dict[kk].dtype) == str(x_dict_[kk].dtype)
+        assert x_dict[kk].dtype == x_dict_[kk].dtype
+        assert x_dict[kk].shape == x_dict_[kk].shape
+        assert np.allclose(to_np(x_dict[kk]), to_np(x_dict_[kk]))
+
+    # Now Let's try to round trip the other way
+    x_vec_, shapes_ = _pack(x_dict_, to_np_validated, shapes)
+    assert np.allclose(x_vec, x_vec_)
+    assert shapes is shapes_
 
 
 @given(np_float_arrays, tf_dtypes)
