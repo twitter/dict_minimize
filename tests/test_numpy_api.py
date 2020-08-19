@@ -16,6 +16,8 @@ np_float_arrays = arrays(
     elements=floats(allow_nan=False, width=16),
 )
 grad_methods = sampled_from(["CG", "BFGS", "L-BFGS-B", "TNC", "SLSQP", "trust-constr"])
+# These are the only optimizers that seem to always respect the bounds arguments, no matter what
+always_respects_bounds = ("L-BFGS-B", "TNC", "SLSQP")
 
 
 def prep3(v):
@@ -26,6 +28,7 @@ np_float_arrays3 = arrays(
     dtype=floating_dtypes(),
     shape=array_shapes(min_dims=0, max_dims=5, min_side=0, max_side=5).map(prep3),
     elements=floats(allow_nan=False, allow_infinity=False, width=16),
+    unique=True,
 )
 
 
@@ -102,6 +105,8 @@ def validate_solution(x0_dict, x_sol, lb=None, ub=None):
         assert str(x0_dict[kk].dtype) == str(x_sol[kk].dtype)
         assert x0_dict[kk].dtype == x_sol[kk].dtype
         assert x0_dict[kk].shape == x_sol[kk].shape
+        assert (lb is None) or np.all(lb[kk] <= x_sol[kk])
+        assert (ub is None) or np.all(x_sol[kk] <= ub[kk])
 
 
 @settings(deadline=None)
@@ -146,6 +151,8 @@ def test_minimize_bounded(x0_dict_, args, method, tol):
 
     args = tuple(args)
 
+    check_bounds = method in always_respects_bounds
+
     x0_dict = OrderedDict()
     lb_dict = OrderedDict()
     ub_dict = OrderedDict()
@@ -160,14 +167,22 @@ def test_minimize_bounded(x0_dict_, args, method, tol):
 
     def dummy_f(xk, *args_):
         assert args == args_
-        validate_solution(x0_dict, xk)
+
+        if check_bounds:
+            validate_solution(x0_dict, xk, lb_dict, ub_dict)
+        else:
+            validate_solution(x0_dict, xk)
+
         # Pass back some arbitrary stuff
         v = sum(vv.sum() for vv in xk.values())
         dv = OrderedDict([kk, vv + 1] for kk, vv in xk.items())
         return v, dv
 
     def callback(xk):
-        validate_solution(x0_dict, xk)
+        if check_bounds:
+            validate_solution(x0_dict, xk, lb_dict, ub_dict)
+        else:
+            validate_solution(x0_dict, xk)
 
     x_sol = minimize(
         dummy_f,
@@ -180,5 +195,8 @@ def test_minimize_bounded(x0_dict_, args, method, tol):
         callback=callback,
         options={"maxiter": 10},
     )
-    # TODO determine when we can check bounds
-    validate_solution(x0_dict, x_sol)
+
+    if check_bounds:
+        validate_solution(x0_dict, x_sol, lb_dict, ub_dict)
+    else:
+        validate_solution(x0_dict, x_sol)
