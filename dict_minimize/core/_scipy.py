@@ -195,10 +195,10 @@ def _minimize(
     x0_dtypes = OrderedDict([(kk, get_dtype(vv)) for kk, vv in x0_dict.items()])
 
     # Flatten bounds
+    assert (lb_dict is None) == (ub_dict is None), "Either both or neither of lb_dict and lb_dict can be None."
     if (lb_dict is None) and (ub_dict is None):
         bounds = None
     else:
-        # TODO assert neither is None
         lb, _ = _pack(lb_dict, to_np_validated, shapes)
         ub, _ = _pack(ub_dict, to_np_validated, shapes)
         bounds = list(zip(lb.tolist(), ub.tolist()))
