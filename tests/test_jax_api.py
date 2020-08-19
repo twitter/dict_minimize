@@ -44,10 +44,9 @@ def to_np_validated(x):
     return x_np
 
 
-@given(dictionaries(text(), tuples(np_float_arrays, floating_dtypes()), min_size=1))
+@given(dictionaries(text(), tuples(np_float_arrays, jax_float_dtypes), min_size=1))
 def test_pack_unpack(x_dict):
-    # TODO use other dtypes
-    x_dict = OrderedDict([(kk, from_np(vv, "float64")) for kk, (vv, dd) in x_dict.items()])
+    x_dict = OrderedDict([(kk, from_np(vv, dd)) for kk, (vv, dd) in x_dict.items()])
 
     # Get dtypes as well
     x_dtypes = OrderedDict([(kk, get_dtype(vv)) for kk, vv in x_dict.items()])
