@@ -3,7 +3,7 @@ from collections import OrderedDict
 import numpy as np
 from hypothesis import assume, given, settings
 from hypothesis.extra.numpy import array_shapes, arrays, floating_dtypes, scalar_dtypes
-from hypothesis.strategies import booleans, dictionaries, floats, integers, lists, sampled_from, text, tuples
+from hypothesis.strategies import dictionaries, floats, integers, lists, sampled_from, text, tuples
 
 from dict_minimize.core._scipy import SCIPY_DTYPE, _default_to_np, _pack, _unpack
 from dict_minimize.numpy_api import from_np, get_dtype, minimize
@@ -25,7 +25,7 @@ def prep3(v):
 np_float_arrays3 = arrays(
     dtype=floating_dtypes(),
     shape=array_shapes(min_dims=0, max_dims=5, min_side=0, max_side=5).map(prep3),
-    elements=floats(allow_nan=False, width=16),
+    elements=floats(allow_nan=False, allow_infinity=False, width=16),
 )
 
 
@@ -139,10 +139,8 @@ def test_minimize(x0_dict, args, method, tol):
     lists(integers()),
     grad_methods,
     floats(0, 1),
-    booleans(),
-    booleans(),
 )
-def test_minimize_bounded(x0_dict_, args, method, tol, ignore_lb, ignore_ub):
+def test_minimize_bounded(x0_dict_, args, method, tol):
     total_el = sum(vv.size for vv, _ in x0_dict_.values())
     assume(total_el > 0)
 
@@ -160,11 +158,6 @@ def test_minimize_bounded(x0_dict_, args, method, tol, ignore_lb, ignore_ub):
 
     validate_solution(x0_dict, x0_dict, lb_dict, ub_dict)
 
-    if ignore_lb:
-        lb_dict = None
-    if ignore_ub:
-        ub_dict = None
-
     def dummy_f(xk, *args_):
         assert args == args_
         validate_solution(x0_dict, xk)
@@ -176,6 +169,16 @@ def test_minimize_bounded(x0_dict_, args, method, tol, ignore_lb, ignore_ub):
     def callback(xk):
         validate_solution(x0_dict, xk)
 
-    x_sol = minimize(dummy_f, x0_dict, args=args, method=method, tol=tol, callback=callback, options={"maxiter": 10})
+    x_sol = minimize(
+        dummy_f,
+        x0_dict,
+        args=args,
+        lb_dict=lb_dict,
+        ub_dict=ub_dict,
+        method=method,
+        tol=tol,
+        callback=callback,
+        options={"maxiter": 10},
+    )
     # TODO determine when we can check bounds
     validate_solution(x0_dict, x_sol)

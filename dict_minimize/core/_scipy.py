@@ -198,6 +198,7 @@ def _minimize(
     if (lb_dict is None) and (ub_dict is None):
         bounds = None
     else:
+        # TODO assert neither is None
         lb, _ = _pack(lb_dict, to_np_validated, shapes)
         ub, _ = _pack(ub_dict, to_np_validated, shapes)
         bounds = list(zip(lb.tolist(), ub.tolist()))
