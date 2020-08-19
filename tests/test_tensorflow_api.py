@@ -15,10 +15,32 @@ np_float_arrays = arrays(
     shape=array_shapes(min_dims=0, max_dims=5, min_side=0, max_side=5),
     elements=floats(allow_nan=False, width=16),
 )
-# TODO float16 does not work at it seems on CPU
-tf_dtypes = sampled_from([tf.float32, tf.float64])
-# TODO add more dtypes
-tf_float_dtypes = sampled_from([tf.float32, tf.float64])
+tf_float_dtypes = sampled_from([tf.float16, tf.float32, tf.float64])
+# tf.resource and tf.variant are too open-ended to include in the tests, tf.string would require a new test
+tf_dtypes = sampled_from(
+    [
+        tf.float16,
+        tf.float32,
+        tf.float64,
+        tf.bfloat16,
+        tf.complex64,
+        tf.complex128,
+        tf.int8,
+        tf.uint8,
+        tf.uint16,
+        tf.uint32,
+        tf.uint64,
+        tf.int16,
+        tf.int32,
+        tf.int64,
+        tf.bool,
+        tf.qint8,
+        tf.quint8,
+        tf.qint16,
+        tf.quint16,
+        tf.qint32,
+    ]
+)
 grad_methods = sampled_from(["CG", "BFGS", "L-BFGS-B", "TNC", "SLSQP", "trust-constr"])
 
 
