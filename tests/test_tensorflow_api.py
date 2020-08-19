@@ -9,14 +9,14 @@ from hypothesis.strategies import booleans, dictionaries, floats, integers, list
 from dict_minimize.core._scipy import SCIPY_DTYPE, _pack, _unpack
 from dict_minimize.tensorflow_api import from_np, get_dtype, minimize, to_np
 
-# TODO drop endianness="="
 np_float_arrays = arrays(
-    dtype=floating_dtypes(endianness="="),
+    dtype=floating_dtypes(),
     shape=array_shapes(min_dims=0, max_dims=5, min_side=0, max_side=5),
     elements=floats(allow_nan=False, width=16),
 )
 tf_float_dtypes = sampled_from([tf.float16, tf.float32, tf.float64])
 # tf.resource and tf.variant are too open-ended to include in the tests, tf.string would require a new test
+# See: https://www.tensorflow.org/api_docs/python/tf/dtypes/DType
 tf_dtypes = sampled_from(
     [
         tf.float16,
@@ -49,7 +49,7 @@ def prep3(v):
 
 
 np_float_arrays3 = arrays(
-    dtype=floating_dtypes(endianness="="),
+    dtype=floating_dtypes(),
     shape=array_shapes(min_dims=0, max_dims=5, min_side=0, max_side=5).map(prep3),
     elements=floats(allow_nan=False, width=16),
 )

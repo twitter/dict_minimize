@@ -20,6 +20,7 @@ np_float_arrays = arrays(
     shape=array_shapes(min_dims=0, max_dims=5, min_side=0, max_side=5),
     elements=floats(allow_nan=False, width=16),
 )
+# See: https://jax.readthedocs.io/en/latest/_modules/jax/dtypes.html
 jax_float_dtypes = sampled_from(["float16", "float32", "float64"])
 grad_methods = sampled_from(["CG", "BFGS", "L-BFGS-B", "TNC", "SLSQP", "trust-constr"])
 

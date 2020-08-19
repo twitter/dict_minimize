@@ -18,6 +18,7 @@ np_float_arrays = arrays(
 # torch float16 does not work on CPU, so we omit from tests
 torch_float_dtypes = sampled_from([torch.float32, torch.float64])
 # torch complex dtypes have trouble on some back ends, so we omit from tests
+# See: https://pytorch.org/docs/stable/tensor_attributes.html#torch-dtype
 torch_dtypes = sampled_from(
     [
         torch.float32,
