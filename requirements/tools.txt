@@ -6,7 +6,7 @@
 #    pip-compile-multi
 #
 appdirs==1.4.4            # via virtualenv
-attrs==19.3.0             # via packaging, pytest
+attrs==19.3.0             # via pytest
 certifi==2020.6.20        # via requests
 cfgv==2.0.1               # via pre-commit
 chardet==3.0.4            # via requests
@@ -35,7 +35,7 @@ requests==2.24.0          # via detect-secrets, yarg
 six==1.15.0               # via cfgv, packaging, pip-tools, virtualenv
 toml==0.10.1              # via pre-commit, pytest
 toposort==1.5             # via pip-compile-multi
-urllib3==1.25.10           # via requests
+urllib3==1.25.10          # via requests
 virtualenv==20.0.30       # via pre-commit
 yarg==0.1.9               # via pipreqs
 zipp==3.1.0               # via importlib-metadata
