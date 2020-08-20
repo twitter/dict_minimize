@@ -37,4 +37,4 @@ jobs:
         pre-commit run --all-files
     - name: Test with pytest
       run: |
-        pytest tests/ -s -v --disable-pytest-warnings
+        pytest tests/ -s -v --disable-pytest-warnings --hypothesis-seed=0
