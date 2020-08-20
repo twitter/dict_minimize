@@ -2,7 +2,7 @@ from collections import OrderedDict
 
 import numpy as np
 import torch
-from hypothesis import assume, given, settings
+from hypothesis import HealthCheck, assume, given, settings
 from hypothesis.extra.numpy import array_shapes, arrays, floating_dtypes
 from hypothesis.strategies import dictionaries, floats, integers, lists, sampled_from, text, tuples
 
@@ -156,7 +156,7 @@ def test_minimize(x0_dict, args, method, tol):
     validate_solution(x0_dict, x_sol)
 
 
-@settings(deadline=None)
+@settings(suppress_health_check=[HealthCheck.filter_too_much, HealthCheck.too_slow], deadline=None)
 @given(
     dictionaries(text(), tuples(np_float_arrays3, torch_float_dtypes), min_size=1),
     lists(integers()),
