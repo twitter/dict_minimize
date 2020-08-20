@@ -16,7 +16,7 @@ pip install -r requirements/base.txt
 pip install -r requirements/frameworks.txt
 pip install -r requirements/tests.txt
 pip install -e .[test]
-pytest tests/ -s -v --disable-pytest-warnings --cov=dict_minimize --cov-report html
+pytest tests/ -s -v --disable-pytest-warnings --hypothesis-seed=0 --cov=dict_minimize --cov-report html
 deactivate
 
 # Test using latest
@@ -25,5 +25,5 @@ virtualenv env_latest --python=$PY
 source ./env_latest/bin/activate
 python --version
 pip install -e .[framework,test]
-pytest tests/ -s -v --disable-pytest-warnings
+pytest tests/ -s -v --disable-pytest-warnings --hypothesis-seed=0
 deactivate

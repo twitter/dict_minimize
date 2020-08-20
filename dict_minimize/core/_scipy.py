@@ -150,6 +150,7 @@ def _minimize(
         `x0_dict`.
     """
     assert isinstance(x0_dict, OrderedDict)
+    assert len(x0_dict) > 0, "Cannot optimize empty dictionary."
 
     def to_np_validated(x):
         x_np = to_np(x)
@@ -190,9 +191,11 @@ def _minimize(
 
     # Get shapes and dtypes
     x0, shapes = _pack(x0_dict, to_np_validated)
+    assert x0.size > 0, "Cannot optimize 0-dim space."
     x0_dtypes = OrderedDict([(kk, get_dtype(vv)) for kk, vv in x0_dict.items()])
 
     # Flatten bounds
+    assert (lb_dict is None) == (ub_dict is None), "Either both or neither of lb_dict and lb_dict can be None."
     if (lb_dict is None) and (ub_dict is None):
         bounds = None
     else:

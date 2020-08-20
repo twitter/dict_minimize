@@ -32,7 +32,7 @@ class DictMinimizeTestCase(unittest.TestCase):
             [("x_half_a", random.normal(subkey_a, shape=(n_a,))), ("x_half_b", random.normal(subkey_b, shape=(n_b,)))]
         )
 
-        params = minimize(d_rosen_obj, params, args=(shift,), method="L-BFGS-B", options={"disp": True})
+        params = minimize(d_rosen_obj, params, args=(shift,), method="L-BFGS-B", options={"disp": False})
 
     def test_numpy(self):
         import numpy as np
@@ -58,7 +58,7 @@ class DictMinimizeTestCase(unittest.TestCase):
 
         params = OrderedDict([("x_half_a", np.random.randn(n_a)), ("x_half_b", np.random.randn(n_b))])
 
-        params = minimize(rosen_obj, params, args=(shift,), method="L-BFGS-B", options={"disp": True})
+        params = minimize(rosen_obj, params, args=(shift,), method="L-BFGS-B", options={"disp": False})
 
     def test_tensorflow(self):
         import tensorflow as tf
@@ -93,7 +93,7 @@ class DictMinimizeTestCase(unittest.TestCase):
 
         params = OrderedDict([("x_half_a", tf.random.normal((n_a,))), ("x_half_b", tf.random.normal((n_b,)))])
 
-        params = minimize(d_rosen_obj, params, args=(shift,), method="L-BFGS-B", options={"disp": True})
+        params = minimize(d_rosen_obj, params, args=(shift,), method="L-BFGS-B", options={"disp": False})
 
     def test_torch(self):
         import torch
@@ -121,4 +121,4 @@ class DictMinimizeTestCase(unittest.TestCase):
 
         params = OrderedDict([("x_half_a", torch.randn((n_a,))), ("x_half_b", torch.randn((n_b,)))])
 
-        params = minimize(d_rosen_obj, params, args=(shift,), method="L-BFGS-B", options={"disp": True})
+        params = minimize(d_rosen_obj, params, args=(shift,), method="L-BFGS-B", options={"disp": False})
