@@ -26,6 +26,11 @@ See the `GitHub <https://github.com/twitter/dict_minimize>`_, `PyPI <>`_, and `R
 Example Usage
 =============
 
+In these examples we optimize a modified `Rosenbrock <https://en.wikipedia.org/wiki/Rosenbrock_function>`_ function.
+However, the arguments have been split into two chunks and stored as two entries in a dictionary.
+This is to illustrate how this package optimizes *dictionaries* of (tensor) parameters rather then vectors.
+We also pass in an extra `shift` argument to demonstrate how `minimize` allows extra constant arguments to be passed into the objective.
+
 PyTorch
 -------
 
