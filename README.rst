@@ -284,6 +284,8 @@ The wheel (tar ball) for deployment as a pip installable package can be built us
    cd $GIT/dict_minimize/
    ./build_wheel.sh
 
+This script will only run if the git repo is clean, i.e., first run ``git clean -x -ff -d``.
+
 Links
 =====
 
