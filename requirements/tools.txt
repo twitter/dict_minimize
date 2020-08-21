@@ -18,6 +18,7 @@ filelock==3.0.12          # via virtualenv
 identify==1.4.28          # via pre-commit
 idna==2.10                # via requests
 importlib-metadata==1.7.0  # via pluggy, pre-commit, pytest, virtualenv
+importlib-resources==3.0.0  # via pre-commit, virtualenv
 iniconfig==1.0.1          # via pytest
 more-itertools==8.4.0     # via pytest
 nodeenv==1.4.0            # via pre-commit
@@ -38,7 +39,7 @@ toposort==1.5             # via pip-compile-multi
 urllib3==1.25.10          # via requests
 virtualenv==20.0.31       # via pre-commit
 yarg==0.1.9               # via pipreqs
-zipp==3.1.0               # via importlib-metadata
+zipp==3.1.0               # via importlib-metadata, importlib-resources
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
