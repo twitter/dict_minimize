@@ -8,11 +8,13 @@ from jax.config import config
 from jax.dtypes import _jax_types
 
 from dict_minimize.core._scipy import SCIPY_DTYPE, _default_to_np, _pack, _unpack
-from dict_minimize.jax_api import from_np, get_dtype, minimize
+from dict_minimize.jax_api import _from_np, _get_dtype, minimize
 
 # The float64 tests will not work without this:
 config.update("jax_enable_x64", True)
 
+get_dtype = _get_dtype
+from_np = _from_np
 to_np = _default_to_np
 
 np_float_arrays = arrays(

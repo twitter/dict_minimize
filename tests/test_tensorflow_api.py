@@ -7,7 +7,11 @@ from hypothesis.extra.numpy import array_shapes, arrays, floating_dtypes
 from hypothesis.strategies import dictionaries, floats, integers, lists, sampled_from, text, tuples
 
 from dict_minimize.core._scipy import SCIPY_DTYPE, _pack, _unpack
-from dict_minimize.tensorflow_api import from_np, get_dtype, minimize, to_np
+from dict_minimize.tensorflow_api import _from_np, _get_dtype, _to_np, minimize
+
+get_dtype = _get_dtype
+from_np = _from_np
+to_np = _to_np
 
 np_float_arrays = arrays(
     dtype=floating_dtypes(),

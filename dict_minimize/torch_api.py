@@ -7,12 +7,12 @@ import torch
 from dict_minimize.core._scipy import _minimize
 
 
-def get_dtype(X):
+def _get_dtype(X):
     dtype = X.dtype
     return dtype
 
 
-def from_np(X, dtype):
+def _from_np(X, dtype):
     assert X.dtype.kind == "f"
 
     dtype_ = X.dtype
@@ -25,7 +25,7 @@ def from_np(X, dtype):
     return Xt
 
 
-def to_np(X):
+def _to_np(X):
     Xn = X.detach().numpy()
     assert Xn.dtype.kind == "f"
     return Xn
@@ -85,9 +85,9 @@ def minimize(
     x = _minimize(
         fun,
         x0_dict,
-        from_np=from_np,
-        get_dtype=get_dtype,
-        to_np=to_np,
+        from_np=_from_np,
+        get_dtype=_get_dtype,
+        to_np=_to_np,
         lb_dict=lb_dict,
         ub_dict=ub_dict,
         args=args,

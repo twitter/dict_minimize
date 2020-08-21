@@ -6,12 +6,12 @@ import numpy as np
 from dict_minimize.core._scipy import _minimize
 
 
-def get_dtype(X):
+def _get_dtype(X):
     dtype = X.dtype
     return dtype
 
 
-def from_np(X, dtype):
+def _from_np(X, dtype):
     Xt = np.asarray(X, dtype=dtype)
     return Xt
 
@@ -69,8 +69,8 @@ def minimize(
     x = _minimize(
         fun,
         x0_dict,
-        from_np=from_np,
-        get_dtype=get_dtype,
+        from_np=_from_np,
+        get_dtype=_get_dtype,
         lb_dict=lb_dict,
         ub_dict=ub_dict,
         args=args,
