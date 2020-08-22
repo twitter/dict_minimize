@@ -1,4 +1,4 @@
-.. figure:: https://user-images.githubusercontent.com/28273671/90945627-d7bbb480-e3da-11ea-97ce-245236dfec1e.png
+.. figure:: https://user-images.githubusercontent.com/28273671/90945755-c2935580-e3db-11ea-9ba9-dbb054834b02.png
    :alt: Rosenbrock
 
 *************************
