@@ -1,3 +1,6 @@
+.. figure:: https://user-images.githubusercontent.com/28273671/90945627-d7bbb480-e3da-11ea-97ce-245236dfec1e.png
+   :alt: Rosenbrock
+
 *************************
 The Dict Minimize Package
 *************************
@@ -22,9 +25,6 @@ To also get the dependencies for all the supported frameworks (torch, JAX, tenso
    pip install dict_minimize[framework]
 
 See the `GitHub <https://github.com/twitter/dict_minimize>`_, `PyPI <>`_, and `Read the Docs <>`_.
-
-.. figure:: https://user-images.githubusercontent.com/28273671/90945627-d7bbb480-e3da-11ea-97ce-245236dfec1e.png
-   :alt: Rosenbrock
 
 Example Usage
 =============
