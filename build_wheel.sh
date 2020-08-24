@@ -6,6 +6,9 @@ set -o pipefail
 # Display what version is being used for logging
 python3 --version
 
+# Ensure we have twine for twine check
+twine --version
+
 # Fail if untracked files so we don't delete them in next step
 test -z "$(git status --porcelain)"
 
@@ -18,3 +21,8 @@ echo VERSION=\"$SHA_LONG\" >version.log
 
 # Now the actual build
 python3 setup.py sdist
+
+# Make sure it worked
+twine check dist/*
+
+echo "passed"

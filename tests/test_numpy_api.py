@@ -6,8 +6,10 @@ from hypothesis.extra.numpy import array_shapes, arrays, floating_dtypes, scalar
 from hypothesis.strategies import dictionaries, floats, integers, lists, sampled_from, text, tuples
 
 from dict_minimize.core._scipy import SCIPY_DTYPE, _default_to_np, _pack, _unpack
-from dict_minimize.numpy_api import from_np, get_dtype, minimize
+from dict_minimize.numpy_api import _from_np, _get_dtype, minimize
 
+get_dtype = _get_dtype
+from_np = _from_np
 to_np = _default_to_np
 
 np_float_arrays = arrays(

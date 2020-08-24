@@ -6,12 +6,12 @@ import numpy as np
 from dict_minimize.core._scipy import _minimize
 
 
-def get_dtype(X):
+def _get_dtype(X):
     dtype = X.dtype
     return dtype
 
 
-def from_np(X, dtype):
+def _from_np(X, dtype):
     Xt = np.asarray(X, dtype=dtype)
     return Xt
 
@@ -46,24 +46,10 @@ def minimize(
       ub_dict (OrderedDict): Dictionary with same keys and shapes as `x0_dict` with upper bounds for \
         each variable. Set to `None` in an unconstrained problem.
       args (tuple): Extra arguments passed to the objective function.
-      method (str): Type of solver. Should be one of \
-          - 'Nelder-Mead' \
-          - 'Powell' \
-          - 'CG' \
-          - 'BFGS' \
-          - 'Newton-CG' \
-          - 'L-BFGS-B' \
-          - 'TNC' \
-          - 'COBYLA' \
-          - 'SLSQP' \
-          - 'trust-constr' \
-          - 'dogleg' \
-          - 'trust-ncg' \
-          - 'trust-exact' \
-          - 'trust-krylov' \
-          - custom - a callable object \
-        If not given, chosen to be one of ``BFGS``, ``L-BFGS-B``, ``SLSQP``, depending if the problem \
-        has constraints or bounds.
+      method (str): Type of solver. Should be one of: ``CG``, ``BFGS``, ``L-BFGS-B``, ``TNC``, \
+        ``SLSQP``, or ``trust-constr``. If not given, chosen to be one of ``BFGS``, ``L-BFGS-B``, \
+        ``SLSQP``, depending if the problem has bounds. Note, only ``L-BFGS-B``, ``TNC``, ``SLSQP`` \
+        seem to strictly respect the bounds ``lb_dict`` and ``ub_dict``.
       tol (float): Tolerance for termination. For detailed control, use solver-specific options.
       callback (callable): Called after each iteration. The signature is: \
           ``callback(xk)`` \
@@ -83,8 +69,8 @@ def minimize(
     x = _minimize(
         fun,
         x0_dict,
-        from_np=from_np,
-        get_dtype=get_dtype,
+        from_np=_from_np,
+        get_dtype=_get_dtype,
         lb_dict=lb_dict,
         ub_dict=ub_dict,
         args=args,

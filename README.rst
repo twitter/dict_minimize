@@ -1,3 +1,6 @@
+.. figure:: https://user-images.githubusercontent.com/28273671/90945755-c2935580-e3db-11ea-9ba9-dbb054834b02.png
+   :alt: Rosenbrock
+
 *************************
 The Dict Minimize Package
 *************************
@@ -25,6 +28,11 @@ See the `GitHub <https://github.com/twitter/dict_minimize>`_, `PyPI <>`_, and `R
 
 Example Usage
 =============
+
+In these examples we optimize a modified `Rosenbrock <https://en.wikipedia.org/wiki/Rosenbrock_function>`_ function.
+However, the arguments have been split into two chunks and stored as two entries in a dictionary.
+This is to illustrate how this package optimizes *dictionaries* of (tensor) parameters rather then vectors.
+We also pass in an extra ``shift`` argument to demonstrate how ``minimize`` allows extra constant arguments to be passed into the objective.
 
 PyTorch
 -------
@@ -278,6 +286,8 @@ The wheel (tar ball) for deployment as a pip installable package can be built us
 
    cd $GIT/dict_minimize/
    ./build_wheel.sh
+
+This script will only run if the git repo is clean, i.e., first run ``git clean -x -ff -d``.
 
 Links
 =====
