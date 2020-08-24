@@ -67,7 +67,7 @@ mkdir $UUID
 cd $UUID
 virtualenv env --python=$PY
 source ./env/bin/activate
-pip install -r $REPO_DIR/requirements/test.txt
+pip install -r $REPO_DIR/requirements/tests.txt
 pip install $REPO_DIR/dist/*.tar.gz
 cp -r $REPO_DIR/tests .
 pytest tests/ -s -v --disable-pytest-warnings --hypothesis-seed=0
@@ -112,7 +112,7 @@ mkdir $UUID
 cd $UUID
 virtualenv env --python=$PY
 source ./env/bin/activate
-pip install -r $REPO_DIR/requirements/test.txt
+pip install -r $REPO_DIR/requirements/tests.txt
 pip install $REPO_DIR/dist/*.tar.gz
 cp -r $REPO_DIR/tests .
 pytest tests/ -s -v --disable-pytest-warnings --hypothesis-seed=0
@@ -135,7 +135,7 @@ mkdir $UUID
 cd $UUID
 virtualenv env --python=$PY
 source ./env/bin/activate
-pip install -r $REPO_DIR/requirements/test.txt
+pip install -r $REPO_DIR/requirements/tests.txt
 pip install $PACKAGE==$VERSION --index-url https://test.pypi.org/simple/
 cp -r $REPO_DIR/tests .
 pytest tests/ -s -v --disable-pytest-warnings --hypothesis-seed=0
@@ -173,7 +173,7 @@ mkdir $UUID
 cd $UUID
 virtualenv env --python=$PY
 source ./env/bin/activate
-pip install -r $REPO_DIR/requirements/test.txt
+pip install -r $REPO_DIR/requirements/tests.txt
 pip install $PACKAGE==$VERSION
 cp -r $REPO_DIR/tests .
 pytest tests/ -s -v --disable-pytest-warnings --hypothesis-seed=0
