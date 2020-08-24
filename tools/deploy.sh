@@ -40,7 +40,6 @@ git clean -x -ff -d
 
 # Run tests locally and cleanup
 ./local_test.sh
-./integration_test.sh
 git reset --hard HEAD
 git clean -x -ff -d
 test -z "$(git status --porcelain)"
@@ -51,7 +50,7 @@ git diff $BRANCH $REMOTE/$BRANCH --quiet
 
 # See if tests pass remote
 read -t 1 -n 10000 discard || true
-read -p "CircleCI tests pass [y/n]? " -r
+read -p "GitHub Actions tests pass [y/n]? " -r
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
     exit 1
@@ -98,7 +97,6 @@ test -z "$(git status --porcelain)"
 
 # Run tests locally and cleanup
 ./local_test.sh
-./integration_test.sh
 git reset --hard HEAD
 git clean -x -ff -d
 test -z "$(git status --porcelain)"
@@ -153,7 +151,7 @@ sha256sum dist/* || shasum -a 256 dist/*
 
 # See if tests pass remote
 read -t 1 -n 10000 discard || true
-read -p "CircleCI tests pass, and push to PyPI? This cannot be undone. [push/no]" -r
+read -p "GitHub Actions tests pass, and push to PyPI? This cannot be undone. [push/no]" -r
 if [[ ! $REPLY == push ]]
 then
     exit 1
