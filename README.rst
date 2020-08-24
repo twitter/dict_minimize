@@ -24,7 +24,7 @@ To also get the dependencies for all the supported frameworks (torch, JAX, tenso
 
    pip install dict_minimize[framework]
 
-See the `GitHub <https://github.com/twitter/dict_minimize>`_, `PyPI <>`_, and `Read the Docs <>`_.
+See the `GitHub <https://github.com/twitter/dict_minimize>`_, `PyPI <https://pypi.org>`_, and `Read the Docs <https://readthedocs.org>`_.
 
 Example Usage
 =============
@@ -294,9 +294,9 @@ Links
 
 The `source <https://github.com/twitter/dict_minimize>`_ is hosted on GitHub.
 
-The `documentation <>`_ is hosted at Read the Docs.
+The `documentation <https://readthedocs.org>`_ is hosted at Read the Docs.
 
-Installable from `PyPI <>`_.
+Installable from `PyPI <https://pypi.org>`_.
 
 License
 =======
