@@ -1,9 +1,6 @@
 .. figure:: https://user-images.githubusercontent.com/28273671/90945755-c2935580-e3db-11ea-9ba9-dbb054834b02.png
    :alt: Rosenbrock
 
-.. figure:: https://github.com/twitter/dict_minimize/workflows/dict_minimize/badge.svg
-   :alt: Status badge
-
 *************************
 The Dict Minimize Package
 *************************
