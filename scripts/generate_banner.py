@@ -17,6 +17,7 @@ def rosen_obj(params):
 
 np.random.seed(0)
 
+banner = False
 lr = 0.05
 
 X = np.arange(-2.0, 2.0, 0.005)
@@ -47,7 +48,16 @@ def callback(xk):
 params = minimize(rosen_obj, params0, method="L-BFGS-B", options={"disp": False}, callback=callback)
 
 levels = np.percentile(Z.ravel(), np.linspace(5, 95, 20))
-plt.figure(figsize=(6, 2), dpi=300)
+
+if banner:
+    # For github README
+    fig = plt.figure(figsize=(6, 2), dpi=320)
+else:
+    # for github social preview
+    fig = plt.figure(figsize=(4, 2), dpi=320)
+
+ax = fig.add_axes([0, 0, 1, 1], frameon=False, xticks=[], yticks=[])
+
 CS = plt.contour(X, Y, Z, levels=levels, zorder=0)
 
 for xx, yy, dx, dy in log:
@@ -63,6 +73,4 @@ plt.yticks(ticks=[])
 plt.xlim(-1, 1.5)
 plt.ylim(-0.5, 1.2)
 
-plt.tight_layout()
-
-plt.savefig("test.png", dpi=300)
+plt.savefig("banner.png", dpi=320, pad_inches=0, bbox_inches="tight", transparent=False, format="png")
