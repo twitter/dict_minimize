@@ -1,7 +1,7 @@
 -r base.in
 jax==0.1.72
 jaxlib==0.1.51
-numpy==1.19.0
+numpy==1.18.5
 scipy==1.4.1
 tensorflow==2.2.0
 torch==1.4.0
