@@ -38,6 +38,7 @@ tensorflow-estimator==2.2.0  # via tensorflow
 tensorflow==2.2.0         # via -r requirements/frameworks.in
 termcolor==1.1.0          # via tensorflow
 torch==1.4.0              # via -r requirements/frameworks.in
+typing==3.6.6             # via -r requirements/frameworks.in
 urllib3==1.25.10          # via requests
 werkzeug==1.0.1           # via tensorboard
 wheel==0.35.1             # via astunparse, tensorboard, tensorflow
