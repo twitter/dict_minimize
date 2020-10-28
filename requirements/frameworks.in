@@ -5,4 +5,3 @@ numpy==1.18.5
 scipy==1.4.1
 tensorflow==2.2.0
 torch==1.4.0
-typing==3.6.6
