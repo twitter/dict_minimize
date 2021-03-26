@@ -5,41 +5,81 @@
 #
 #    pip-compile-multi
 #
-appdirs==1.4.4            # via virtualenv
-attrs==19.3.0             # via pytest
-certifi==2020.6.20        # via requests
-cfgv==3.2.0               # via pre-commit
-chardet==3.0.4            # via requests
-click==7.1.2              # via pip-compile-multi, pip-tools
-detect-secrets==0.12.5    # via -r requirements/tools.in
-distlib==0.3.1            # via virtualenv
-docopt==0.6.2             # via pipreqs
-filelock==3.0.12          # via virtualenv
-identify==1.4.28          # via pre-commit
-idna==2.10                # via requests
-importlib-metadata==1.7.0  # via pluggy, pre-commit, pytest, virtualenv
-importlib-resources==3.0.0  # via pre-commit, virtualenv
-iniconfig==1.0.1          # via pytest
-more-itertools==8.4.0     # via pytest
-nodeenv==1.4.0            # via pre-commit
-packaging==20.4           # via pytest
-pip-compile-multi==1.4.0  # via -r requirements/tools.in
-pip-tools==5.3.1          # via pip-compile-multi
-pipreqs==0.4.9            # via -r requirements/tools.in
-pluggy==0.13.1            # via pytest
-pre-commit==2.6.0         # via -r requirements/tools.in
-py==1.9.0                 # via pytest
-pyparsing==2.4.7          # via packaging
-pytest==6.0.1             # via -r requirements/tools.in
-pyyaml==5.3.1             # via detect-secrets, pre-commit
-requests==2.24.0          # via detect-secrets, yarg
-six==1.15.0               # via packaging, pip-tools, virtualenv
-toml==0.10.1              # via pre-commit, pytest
-toposort==1.5             # via pip-compile-multi
-urllib3==1.25.10          # via requests
-virtualenv==20.0.31       # via pre-commit
-yarg==0.1.9               # via pipreqs
-zipp==3.1.0               # via importlib-metadata, importlib-resources
+appdirs==1.4.4
+    # via virtualenv
+attrs==19.3.0
+    # via pytest
+certifi==2020.6.20
+    # via requests
+cfgv==3.2.0
+    # via pre-commit
+chardet==3.0.4
+    # via requests
+click==7.1.2
+    # via
+    #   pip-compile-multi
+    #   pip-tools
+detect-secrets==0.12.5
+    # via -r tools.in
+distlib==0.3.1
+    # via virtualenv
+docopt==0.6.2
+    # via pipreqs
+filelock==3.0.12
+    # via virtualenv
+identify==1.4.28
+    # via pre-commit
+idna==2.10
+    # via requests
+iniconfig==1.0.1
+    # via pytest
+more-itertools==8.4.0
+    # via pytest
+nodeenv==1.4.0
+    # via pre-commit
+packaging==20.4
+    # via pytest
+pip-compile-multi==1.4.0
+    # via -r tools.in
+pip-tools==5.3.1
+    # via pip-compile-multi
+pipreqs==0.4.9
+    # via -r tools.in
+pluggy==0.13.1
+    # via pytest
+pre-commit==2.6.0
+    # via -r tools.in
+py==1.9.0
+    # via pytest
+pyparsing==2.4.7
+    # via packaging
+pytest==6.0.1
+    # via -r tools.in
+pyyaml==5.4
+    # via
+    #   detect-secrets
+    #   pre-commit
+requests==2.24.0
+    # via
+    #   detect-secrets
+    #   yarg
+six==1.15.0
+    # via
+    #   packaging
+    #   pip-tools
+    #   virtualenv
+toml==0.10.1
+    # via
+    #   pre-commit
+    #   pytest
+toposort==1.5
+    # via pip-compile-multi
+urllib3==1.25.10
+    # via requests
+virtualenv==20.0.31
+    # via pre-commit
+yarg==0.1.9
+    # via pipreqs
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
