@@ -31,7 +31,7 @@ pre-commit==2.6.0         # via -r requirements/tools.in
 py==1.9.0                 # via pytest
 pyparsing==2.4.7          # via packaging
 pytest==6.0.1             # via -r requirements/tools.in
-pyyaml==5.3.1             # via detect-secrets, pre-commit
+pyyaml==5.4               # via detect-secrets, pre-commit
 requests==2.24.0          # via detect-secrets, yarg
 six==1.15.0               # via packaging, pip-tools, virtualenv
 toml==0.10.1              # via pre-commit, pytest
