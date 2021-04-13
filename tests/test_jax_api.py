@@ -88,7 +88,8 @@ def test_get_dtype(x_np, dtype):
     dtype2 = get_dtype(x_jax)
 
     assert dtype == dtype2
-    assert str(dtype) == str(dtype2)
+    # We only expect the str version to match if it is a np dtype
+    assert str(np.dtype(dtype)) == str(dtype2)
 
 
 @given(np_float_arrays, jax_float_dtypes)
