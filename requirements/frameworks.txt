@@ -98,7 +98,7 @@ torch==1.4.0
     # via -r requirements/frameworks.in
 urllib3==1.25.10
     # via requests
-werkzeug==1.0.1
+werkzeug==2.2.3
     # via tensorboard
 wheel==0.35.1
     # via
