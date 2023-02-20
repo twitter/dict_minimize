@@ -112,3 +112,4 @@ zipp==3.1.0
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
+numpy>=1.22.2 # not directly required, pinned by Snyk to avoid a vulnerability
